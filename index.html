@@ -326,8 +326,8 @@
             <div class="container">
                 <h2 class="section-title">Che cos'è il Perlin Noise?</h2>
                 <div class="section-content">
-                    <p>Il Perlin Noise è un algoritmo di generazione procedurale sviluppato da Ken Perlin nel 1983
-                        mentre lavorava agli effetti speciali del film "Tron". Questo algoritmo produce sequenze di
+                    <p>Il Perlin Noise è un algoritmo di generazione procedurale, sviluppato da Ken Perlin nel 1983
+                        mentre lavorava agli effetti speciali del film «TRON». Questo algoritmo produce sequenze di
                         numeri che appaiono sia casuali che organiche, cioè con una coerenza spaziale che imita fenomeni
                         naturali. Dagli anni 90 quasi tutta la CGI è basata sul Perlin Noise. </p>
                     <div style="display: flex; gap: 1rem; justify-content: center; margin: 1.5rem 0;">
@@ -338,7 +338,7 @@
                     <p>A differenza del rumore completamente casuale (rumore bianco), il Perlin Noise crea transizioni
                         graduali e naturali tra i valori. Questa caratteristica lo rende perfetto per generare texture,
                         terreni, nuvole, fumo e molti altri elementi che richiedono un aspetto organico ma con un certo
-                        grado di casualità.Viene usato da artisti, sviluppatori di videogiochi e web-designer.I vantaggi di questo algoritmo comprndono anche la ridezione del lavoro manuale di creazione contenuti e il fatto che occupa meno spazio (si salva il "seed", non tutti i dati).</p>
+                        grado di casualità. Viene usato da artisti, sviluppatori di videogiochi e web-designer. I vantaggi di questo algoritmo comprendono anche la riduzione del lavoro manuale di creazione di contenuti e il fatto che occupa meno spazio (si salva il «seed», non tutti i dati).</p>
                     <p>Perlin ricevette un Oscar tecnico nel 1997 per questo contributo alla computer grafica,
                         dimostrando l'importanza fondamentale di questo algoritmo nell'industria dell'intrattenimento e
                         della simulazione.</p>
@@ -355,12 +355,12 @@
                     <p> <strong>Una guida semplificata alla comprensione dei concetti base dell'algoritmo di Ken Perlin.</strong>  </p>
                         
                     <p style="font-size:1.3rem;">Dal punto di vista matematico, il Perlin Noise è una funzione di interpolazione che genera valori attraverso una serie di processi.</p>
-                    <p style="font-size:1.3rem;">Il vantaggio del Perlin Noise è che lo si può applicare a ogni quantità di dimensioni. <br>Il costo computazionale del Perlin Noise cresce esponenzialmente al crescere delle dimensioni.<br>Partendo dal presupposto che in tutti i casi il primo passaggio nell'esecuzione del Perlin Noise è la suddivisione del piano in una griglia, (in 1D → punti; in 2D → quadrati; in 3D → cubi) per 1D prendiamo 2 numeri, per 2D ne prendiamo 4 (vertici del quadrato), per 3D ne serviranno 8 (vertici del cubo), etc.</p>
+                    <p style="font-size:1.3rem;">Il vantaggio del Perlin Noise è che lo si può applicare a ogni quantità di dimensioni. <br>Il costo computazionale del Perlin Noise cresce esponenzialmente al crescere delle dimensioni.<br>Partendo dal presupposto che in tutti i casi il primo passaggio nell'esecuzione del Perlin Noise è la suddivisione del piano in una griglia, (in 1D → punti; in 2D → quadrati; in 3D → cubi) per 1D prendiamo 2 valori sul piano, per 2D ne prendiamo 4 (vertici del quadrato), per 3D ne serviranno 8 (vertici del cubo), etc. In poche parole all'aumentare delle dimensioni aumentano i calcoli necessari. Ciò significa che il processo di base rimane lo stesso, ma aumenta la quantità di valori presi in esame. Per questo, per capire il funzionamento del Perlin Noise si può partire dal procedimento applicato a una sola dimensione.</p>
                     <strong>Processo</strong>  
 
                     <ul style="padding:0px; margin-left: 0rem; margin-bottom: 1.5rem;">
-                        <li><strong>Pseudo-random:</strong> Per iniziare ci servono valori pseudo-random tra -1 e 1 (vettori nel caso del 2D). Ad esempio possiamo partire dalle funzioni sin o cos, per generare una funzione pseudo-random.<br><img src="img/Perlin_Noise_2-01.png" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li>
-                        <li><strong>Prodotto scalare:</strong> Otteniamo il prodotto scalare tra i numeri (o vettori) e i loro offset (valore successivo nel piano). Da notare come passando sull'asse x del piano cartesiano (per 1D) o tra i nodi di griglia (per 2D ecc.) il valore del prodotto sia sempre 0. Questo è ciò che conferisce all'algoritmo il suo aspetto caratteristico.<br></li><br>
+                        <li><strong>Pseudo-random:</strong> Per iniziare ci servono valori pseudo-random tra -1 e 1. Ad esempio possiamo partire dalle funzioni sin o cos, per generare una funzione pseudo-random.<br><img src="img/Perlin_Noise_2-01.png" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li>
+                        <li><strong>Prodotto scalare:</strong> Otteniamo il prodotto scalare tra i numeri e i loro offset (valore successivo nel piano). Da notare come passando sull'asse x del piano cartesiano (per 1D) il valore del prodotto sia sempre 0. Questo è ciò che conferisce all'algoritmo il suo aspetto caratteristico.<br></li><br>
                         <li><strong>Steps:</strong> Componiamo la funzione «floor» dei prodotti scalari (così prendiamo solo i numeri interi, per semplificare) creando gli step tra i nostri valori.<br><img src="img/Perlin_Noise_2-02.png"  alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li>
                         <li><strong>Interpolazione:</strong> Con la funzione Smooth (funzione sigmoidea),  applicata alla nostra funzione, otteniamo una linea morbida (per 1D), un gradiente morbido (per 2D), o una superficie (per 3D). La funzione Smooth in poche parole «smussa» i nostri «gradini» tra i valori.<br><img src="img/Perlin_Noise_2-03.png" style="width:100%;margin:0.5em 0;"><br><img src="img/Perlin_Noise_2-04.png" alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li>
                         <li><strong>Ottave:</strong> Per rendere la funzione più organica, più complessa e più interessante dobbiamo aggiungere le ottave - moltiplicare, sommare e comporre tra loro più funzioni di noise con valori diversi.<br><br><img src="img/Perlin_Noise_2-05.png"  style="width:100%;margin:0.5em 0;"><br><img src="img/Perlin_Noise_2-06.png" style="width:100%;margin:0.5em 0;" ><br><img src="img/Perlin_Noise_2-07.png"style="width:100%;margin:0.5em 0;"></li></li>
@@ -373,8 +373,9 @@
                     <ul>
                         <li>x è il punto da valutare (tra due interi a e b: a = floor(x), b = a + 1)</li>
                         <li>t = x - a (la parte frazionaria di x)</li>
-                        <li>fade(t) è una funzione di smoothing</li>
                         <li>grad(hash, x) è una funzione gradiente basata su un valore hash</li>
+                        <li>fade(t) è una funzione di smoothing</li>
+              
                         <li>lerp(t, a, b) è l'interpolazione lineare</li>
                     </ul>
                    
