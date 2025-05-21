@@ -386,8 +386,12 @@
                     <p style="font-size:0.95em; opacity:0.8;">Fonte: <a href="http://tobyschachman.com/Shadershop/" target="_blank">Shadershop - Toby Schachman</a></p>
 
                     <p>Per un punto in una griglia bidimensionale, ciò richiederà il calcolo di quattro vettori di offset e prodotti scalari, mentre in tre dimensioni richiederà otto vettori di offset e otto prodotti scalari. In generale, l'algoritmo ha una complessità di O (2 n ) in n dimensioni.</p>
-
+                    <strong>Prpocedimento in più dimensioni.</strong>
+                    <li><strong>[Pseudo-random]:</strong> Nell'approccio a più dimensioni questo passaggio corrisponde alla suddivisione del piano in una griglia e all'assegnazione di un vettore gradiente casuale per ogni nodo, successivamente l'individuazione di un punto casuale all'interno della cella. Vengono poi individuati 2n (n= numero dimensioni) vettori offset overro i vettori che partono dai nodi e arrivano al punto casuale  <br><img src="img/2.jpg" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li><br><img src="img/Perlin_Noise_2-15.png" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li>
+                    <li><strong>[Steps]:</strong> Nell'approccio a più dimensioni questo passaggio corrisponde al prodotto scalare tra il vettore gradiente e il vettore offset <br><img src="img/Perlin_Noise_2-14.png"  alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li><br><img src="img/PerlinNoiseDotProducts.png" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li>
+                    <li><strong>[Interpolazione]:</strong> Nell'approccio a più dimensioni questo passaggio funziona allo stesso modo<br><br><img src="img/PerlinNoiseInterpolated.png" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li><br>
                     <strong>Formula del Perlin Noise 2D</strong>
+                    
                     <div class="formula">
     <strong>P(x, y) = Σ<sub>i=1</sub><sup>n</sup> (a<sub>i</sub> * G<sub>i</sub>(x, y))</strong>
 </div>
