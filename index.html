@@ -201,24 +201,26 @@
         .controlli {
             background: #181818;
             border-radius: var(--radius);
-            padding: 1.5rem 1rem;
-            margin: 2rem 0 1rem 0;
+            padding: 1rem 1rem;
+            margin: 1.5rem 0 1rem 0;
             box-shadow: var(--shadow);
         }
 
         .slider-container {
-            margin-bottom: 1.2rem;
+            margin-bottom: 0.8rem;
         }
 
         .slider-container label {
             font-weight: 700;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
             display: block;
+            font-size: 0.9rem;
         }
 
         input[type="range"] {
             width: 100%;
             accent-color: #5af;
+            height: 6px;
         }
 
         #perlinCanvas,
@@ -358,7 +360,7 @@
 
                     <ul style="padding:0px; margin-left: 0rem; margin-bottom: 1.5rem;">
                         <li><strong>Pseudo-random:</strong> Per iniziare ci servono valori pseudo-random tra -1 e 1 (vettori nel caso del 2D). Ad esempio possiamo partire dalle funzioni sin o cos, per generare una funzione pseudo-random.<br><img src="img/Perlin_Noise_2-01.png" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li>
-                        <li><strong>Prodotto scalare:</strong> Otteniamo il prodotto scalare tra i numeri (o vettori) e i loro offset (valore successivo nel piano). Da notare come passando sull'asse x del piano cartesiano (per 1D) o tra i nodi di griglia (per 2D ecc.) il valore del prodotto sia sempre 0. Questo è ciò che conferisce all’algoritmo il suo aspetto caratteristico.<br></li><br>
+                        <li><strong>Prodotto scalare:</strong> Otteniamo il prodotto scalare tra i numeri (o vettori) e i loro offset (valore successivo nel piano). Da notare come passando sull'asse x del piano cartesiano (per 1D) o tra i nodi di griglia (per 2D ecc.) il valore del prodotto sia sempre 0. Questo è ciò che conferisce all'algoritmo il suo aspetto caratteristico.<br></li><br>
                         <li><strong>Steps:</strong> Componiamo la funzione «floor» dei prodotti scalari (così prendiamo solo i numeri interi, per semplificare) creando gli step tra i nostri valori.<br><img src="img/Perlin_Noise_2-02.png"  alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li>
                         <li><strong>Interpolazione:</strong> Con la funzione Smooth (funzione sigmoidea),  applicata alla nostra funzione, otteniamo una linea morbida (per 1D), un gradiente morbido (per 2D), o una superficie (per 3D). La funzione Smooth in poche parole «smussa» i nostri «gradini» tra i valori.<br><img src="img/Perlin_Noise_2-03.png" style="width:100%;margin:0.5em 0;"><br><img src="img/Perlin_Noise_2-04.png" alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li>
                         <li><strong>Ottave:</strong> Per rendere la funzione più organica, più complessa e più interessante dobbiamo aggiungere le ottave - moltiplicare, sommare e comporre tra loro più funzioni di noise con valori diversi.<br><br><img src="img/Perlin_Noise_2-05.png"  style="width:100%;margin:0.5em 0;"><br><img src="img/Perlin_Noise_2-06.png" style="width:100%;margin:0.5em 0;" ><br><img src="img/Perlin_Noise_2-07.png"style="width:100%;margin:0.5em 0;"></li></li>
@@ -373,11 +375,67 @@
                         <li>t = x - a (la parte frazionaria di x)</li>
                         <li>fade(t) è una funzione di smoothing</li>
                         <li>grad(hash, x) è una funzione gradiente basata su un valore hash</li>
-                        <li>lerp(t, a, b) è l’interpolazione lineare</li>
+                        <li>lerp(t, a, b) è l'interpolazione lineare</li>
                     </ul>
                    
                     <p style="font-size:0.95em; opacity:0.8;">Fonte: <a href="http://tobyschachman.com/Shadershop/" target="_blank">Shadershop - Toby Schachman</a></p>
-             
+                </section>
+                <section class="section alt fade-in">
+                    <div class="container">
+                        <h2 class="section-title">Esempio Interattivo: Griglia di Punti con Perlin Noise</h2>
+                        <div class="section-content">
+                            <p>Sperimenta con il Perlin Noise modificando i parametri qui sotto. Osserva come i diversi valori
+                                influenzano la dimensione dei punti nella griglia.</p>
+                            <canvas id="perlinCanvas" width="900" height="400"></canvas>
+                            <div class="controlli">
+                                <div class="slider-container">
+                                    <label for="gapSlider">Distanza tra i punti: <span id="gapValue">20</span>px</label>
+                                    <input type="range" id="gapSlider" min="5" max="40" step="1" value="20">
+                                </div>
+                                <div class="slider-container">
+                                    <label for="scaleSlider">Scala: <span id="scaleValue">0.01</span></label>
+                                    <input type="range" id="scaleSlider" min="0.001" max="0.05" step="0.001" value="0.01">
+                                </div>
+                                <div class="slider-container">
+                                    <label for="octavesSlider">Ottave: <span id="octavesValue">3</span></label>
+                                    <input type="range" id="octavesSlider" min="1" max="8" step="1" value="3">
+                                </div>
+                                <div class="slider-container">
+                                    <label for="persistenceSlider">Persistenza: <span id="persistenceValue">0.5</span></label>
+                                    <input type="range" id="persistenceSlider" min="0.1" max="0.9" step="0.05" value="0.5">
+                                </div>
+                            </div>
+                            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                                <li><strong>Distanza tra i punti</strong>: Controlla la spaziatura della griglia. Una distanza
+                                    maggiore mostra meglio i pattern del rumore su larga scala.</li>
+                                <li><strong>Scala</strong>: Controlla quanto "zoom" si applica al rumore. Valori più piccoli
+                                    producono variazioni più graduali.</li>
+                                <li><strong>Ottave</strong>: Il numero di livelli di dettaglio sovrapposti. Più ottave creano un
+                                    rumore più complesso e dettagliato.</li>
+                                <li><strong>Persistenza</strong>: Controlla quanto ogni ottava successiva influisce sul
+                                    risultato finale. Valori più alti creano più dettaglio e "turbolenza".</li>
+                            </ul>
+                            <p>Nota come il Perlin Noise crea modelli che appaiono sia casuali che organici: i punti vicini
+                                hanno dimensioni simili, creando un effetto di gradualità che imita fenomeni naturali. Questo è
+                                molto diverso dalla casualità pura, dove non ci sarebbe alcuna coerenza spaziale.</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="section fade-in">
+                    <div class="container">
+                        <h2 class="section-title">Esempio Interattivo: Paesaggio 3D in Perlin Noise (rotazione con mouse)</h2>
+                        <div class="section-content">
+                            <p>Trascina il mouse orizzontalmente per ruotare il paesaggio. </p>
+                            <canvas id="perlinWebGL" width="900" height="400"></canvas>
+                            <div class="controlli">
+                                <div class="slider-container">
+                                    <label for="webglOctavesSlider">Ottave: <span id="webglOctavesValue">3</span></label>
+                                    <input type="range" id="webglOctavesSlider" min="1" max="8" step="1" value="3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
         </section>
         <section class="section fade-in">
             <div class="container">
@@ -392,6 +450,7 @@
                                     <div class="esempio-card-content"></div>
                                     <div class="esempio-card"><img src="img/rainforest.png"  alt="Generazione di terreni">
                                         <div class="esempio-card-content"></div>
+                                   
 
                             <h5>Generazione di terreni</h5>
                                 <p>Usato per creare paesaggi naturalistici in videogiochi e simulazioni geografiche.</p>
@@ -472,63 +531,8 @@
                     </div>
                 </div>
             </div>
-        </section>
-        <section class="section alt fade-in">
-            <div class="container">
-                <h2 class="section-title">Esempio Interattivo: Griglia di Punti con Perlin Noise</h2>
-                <div class="section-content">
-                    <p>Sperimenta con il Perlin Noise modificando i parametri qui sotto. Osserva come i diversi valori
-                        influenzano la dimensione dei punti nella griglia.</p>
-                    <canvas id="perlinCanvas" width="900" height="400"></canvas>
-                    <div class="controlli">
-                        <div class="slider-container">
-                            <label for="gapSlider">Distanza tra i punti: <span id="gapValue">20</span>px</label>
-                            <input type="range" id="gapSlider" min="5" max="40" step="1" value="20">
-                        </div>
-                        <div class="slider-container">
-                            <label for="scaleSlider">Scala: <span id="scaleValue">0.01</span></label>
-                            <input type="range" id="scaleSlider" min="0.001" max="0.05" step="0.001" value="0.01">
-                        </div>
-                        <div class="slider-container">
-                            <label for="octavesSlider">Ottave: <span id="octavesValue">3</span></label>
-                            <input type="range" id="octavesSlider" min="1" max="5" step="1" value="3">
-                        </div>
-                        <div class="slider-container">
-                            <label for="persistenceSlider">Persistenza: <span id="persistenceValue">0.5</span></label>
-                            <input type="range" id="persistenceSlider" min="0.1" max="0.9" step="0.05" value="0.5">
-                        </div>
-                    </div>
-                    <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
-                        <li><strong>Distanza tra i punti</strong>: Controlla la spaziatura della griglia. Una distanza
-                            maggiore mostra meglio i pattern del rumore su larga scala.</li>
-                        <li><strong>Scala</strong>: Controlla quanto "zoom" si applica al rumore. Valori più piccoli
-                            producono variazioni più graduali.</li>
-                        <li><strong>Ottave</strong>: Il numero di livelli di dettaglio sovrapposti. Più ottave creano un
-                            rumore più complesso e dettagliato.</li>
-                        <li><strong>Persistenza</strong>: Controlla quanto ogni ottava successiva influisce sul
-                            risultato finale. Valori più alti creano più dettaglio e "turbolenza".</li>
-                    </ul>
-                    <p>Nota come il Perlin Noise crea modelli che appaiono sia casuali che organici: i punti vicini
-                        hanno dimensioni simili, creando un effetto di gradualità che imita fenomeni naturali. Questo è
-                        molto diverso dalla casualità pura, dove non ci sarebbe alcuna coerenza spaziale.</p>
-                </div>
-            </div>
-        </section>
-        <section class="section fade-in">
-            <div class="container">
-                <h2 class="section-title">Esempio Interattivo: Paesaggio 3D in Perlin Noise (rotazione con mouse)</h2>
-                <div class="section-content">
-                    <p>Trascina il mouse orizzontalmente per ruotare il paesaggio. </p>
-                    <canvas id="perlinWebGL" width="900" height="400"></canvas>
-                    <div class="controlli">
-                        <div class="slider-container">
-                            <label for="webglOctavesSlider">Ottave: <span id="webglOctavesValue">3</span></label>
-                            <input type="range" id="webglOctavesSlider" min="1" max="5" step="1" value="3">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+       
+        
         <section class="section alt fade-in">
             <div class="container">
                 <h2 class="section-title">Bibliografia e Risorse</h2>
@@ -629,7 +633,7 @@
                 amplitude *= persistence;
                 frequency *= 2;
             }
-            return total / maxValue;
+            return total;
         }
         function initIntroAnimation() {
             const container = document.getElementById('perlinIntro');
@@ -674,7 +678,7 @@
             const persistenceValue = document.getElementById('persistenceValue');
             const perlin = new ImprovedNoise();
             function drawDotGrid() {
-                ctx.fillStyle = '#fff';
+                ctx.fillStyle = '#000';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 const gap = parseInt(gapSlider.value);
                 const scale = parseFloat(scaleSlider.value);
@@ -687,10 +691,11 @@
                 for (let x = gap / 2; x < canvas.width; x += gap) {
                     for (let y = gap / 2; y < canvas.height; y += gap) {
                         const noiseValue = fbm(perlin, x * scale, y * scale, 0, octaves, persistence);
-                        const radius = Math.max(1, noiseValue * gap * 0.8);
+                        const normalizedValue = (noiseValue + 1) / 2;
+                        const radius = Math.max(1, normalizedValue * gap * 1.2);
                         ctx.beginPath();
                         ctx.arc(x, y, radius, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgb(${Math.floor(noiseValue * 100)}, ${Math.floor(noiseValue * 150)}, ${Math.floor(noiseValue * 255)})`;
+                        ctx.fillStyle = `rgba(255, 255, 255, ${normalizedValue * 1.5})`;
                         ctx.fill();
                     }
                 }
