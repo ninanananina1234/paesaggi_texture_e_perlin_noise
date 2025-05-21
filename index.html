@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Perlin Noise: Guida Completa</title>
+    <title>Paesaggi, Textures e Perlin Noise</title>
     <meta name="author" content="Nome Cognome">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -181,10 +181,10 @@
 
         .grid .esempio-card img {
             width: 100%;
-            height: 220px;  /* altezza fissa ma non eccessiva */
+            /*height: 220px;  /* altezza fissa ma non eccessiva */
             object-fit: contain;  /* mantiene le proporzioni senza tagliare */
-            background: #222;  /* sfondo scuro per le immagini con trasparenza */
-            padding: 10px;  /* spazio interno per non far toccare i bordi */
+            /*background: #222;  /* sfondo scuro per le immagini con trasparenza */
+            /*padding: 10px;  /* spazio interno per non far toccare i bordi */
         }
 
         .esempio-card-content {
@@ -327,14 +327,11 @@
                     <p>Il Perlin Noise è un algoritmo di generazione procedurale sviluppato da Ken Perlin nel 1983
                         mentre lavorava agli effetti speciali del film "Tron". Questo algoritmo produce sequenze di
                         numeri che appaiono sia casuali che organiche, cioè con una coerenza spaziale che imita fenomeni
-                        naturali.</p>
+                        naturali. Dagli anni 90 quasi tutta la CGI è fatta col (o basata sul) Perlin Noise. Anche lo usano gli artisti, gli sviluppatori dei videogiochi, i web-designer.</p>
                     <div style="display: flex; gap: 1rem; justify-content: center; margin: 1.5rem 0;">
-                        <img src="img/tuaprimaimmagine.jpg" alt="Tron 1"
-                            style="width: 32%; object-fit: cover; border-radius: 8px;">
-                        <img src="img/TRON_4.jpg" alt="Tron 2"
-                            style="width: 32%; object-fit: cover; border-radius: 8px;">
+                    
                         <img src="img/TRON_5.jpg" alt="Tron 3"
-                            style="width: 32%; object-fit: cover; border-radius: 8px;">
+                            style="width: 100%; object-fit: cover; border-radius: 8px;">
                     </div>
                     <p>A differenza del rumore completamente casuale (rumore bianco), il Perlin Noise crea transizioni
                         graduali e naturali tra i valori. Questa caratteristica lo rende perfetto per generare texture,
@@ -351,36 +348,36 @@
         <section class="section alt fade-in">
             <div class="container">
                 <h2 class="section-title">La Matematica del Perlin Noise</h2>
+             
                 <div class="section-content">
-                    <p style="font-size:1.3rem;">Dal punto di vista matematico, il Perlin Noise è una funzione di interpolazione che genera valori attraverso una serie di processi:</p>
-                    <h5 style="font-size:1.3rem; margin-bottom:1rem;">Perlin Noise 1D</h5>
-                    <p>In una dimensione, il Perlin Noise può essere visto come una funzione che genera una curva morbida e continua, simile a una collina, ma con un aspetto pseudo-casuale. L'idea chiave è che invece di generare valori casuali per ogni punto, si generano valori solo ai nodi di una griglia (ad esempio, agli interi) e si interpola tra questi valori in modo fluido.</p>
+                    <p> <strong>Una guida semplificata alla comprensione dei concetti base dell'algoritmo di Ken Perlin.</strong>  </p>
+                        
+                    <p style="font-size:1.3rem;">Dal punto di vista matematico, il Perlin Noise è una funzione di interpolazione che genera valori attraverso una serie di processi.</p>
+                    <p style="font-size:1.3rem;">Il vantaggio del Perlin Noise è che lo si può applicare a ogni quantità di dimensioni. <br>Il costo computazionale del Perlin Noise cresce esponenzialmente al crescere delle dimensioni.<br>Partendo dal presupposto che in tutti i casi il primo passaggio nell'esecuzione del Perlin Noise è la suddivisione del piano in una griglia, (in 1D → punti; in 2D → quadrati; in 3D → cubi) per 1D prendiamo 2 numeri, per 2D ne prendiamo 4 (vertici del quadrato), per 3D ne serviranno 8 (vertici del cubo), etc.</p>
+                    <strong>Processo</strong>  
+
                     <ul style="padding:0px; margin-left: 0rem; margin-bottom: 1.5rem;">
-                        <li><strong>Pseudo-random:</strong> si parte da valori casuali per ogni punto, ottenendo una funzione completamente discontinua.<br><img src="img/perlin_white_noise.jpg" alt="Rumore bianco" style="width:100%;max-width:320px;margin:0.5em 0;"></li>
-                        <li><strong>Noise a steps:</strong> si assegna un valore casuale solo ai nodi della griglia e si mantiene costante tra un nodo e l'altro, ottenendo una funzione a gradini.<br><img src="img/perlin_step_noise.jpg" alt="Rumore a gradini" style="width:100%;max-width:320px;margin:0.5em 0;"></li>
-                        <li><strong>Interpolazione:</strong> invece di mantenere il valore costante tra i nodi, si interpola in modo morbido (funzione smooth), ottenendo una curva continua e naturale.<br><img src="img/perlin_smooth_noise.jpg" alt="Rumore interpolato" style="width:100%;max-width:320px;margin:0.5em 0;"></li>
-                        <li><strong>Risultato finale:</strong> sommando più onde di Perlin a diverse scale e ampiezze si ottiene un risultato ancora più ricco e naturale (ottave).<br><img src="img/perlin_fractal_noise.jpg" alt="Rumore frattale" style="width:100%;max-width:320px;margin:0.5em 0;"></li>
+                        <li><strong>Pseudo-random:</strong> Per iniziare ci servono valori pseudo-random tra -1 e 1 (vettori nel caso del 2D). Ad esempio possiamo partire dalle funzioni sin o cos, per generare una funzione pseudo-random.<br><img src="img/Perlin_Noise_2-01.png" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li>
+                        <li><strong>Prodotto scalare:</strong> Otteniamo il prodotto scalare tra i numeri (o vettori) e i loro offset (valore successivo nel piano). Da notare come passando sull'asse x del piano cartesiano (per 1D) o tra i nodi di griglia (per 2D ecc.) il valore del prodotto sia sempre 0. Questo è ciò che conferisce all’algoritmo il suo aspetto caratteristico.<br></li><br>
+                        <li><strong>Steps:</strong> Componiamo la funzione «floor» dei prodotti scalari (così prendiamo solo i numeri interi, per semplificare) creando gli step tra i nostri valori.<br><img src="img/Perlin_Noise_2-02.png"  alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li>
+                        <li><strong>Interpolazione:</strong> Con la funzione Smooth (funzione sigmoidea),  applicata alla nostra funzione, otteniamo una linea morbida (per 1D), un gradiente morbido (per 2D), o una superficie (per 3D). La funzione Smooth in poche parole «smussa» i nostri «gradini» tra i valori.<br><img src="img/Perlin_Noise_2-03.png" style="width:100%;margin:0.5em 0;"><br><img src="img/Perlin_Noise_2-04.png" alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li>
+                        <li><strong>Ottave:</strong> Per rendere la funzione più organica, più complessa e più interessante dobbiamo aggiungere le ottave - moltiplicare, sommare e comporre tra loro più funzioni di noise con valori diversi.<br><br><img src="img/Perlin_Noise_2-05.png"  style="width:100%;margin:0.5em 0;"><br><img src="img/Perlin_Noise_2-06.png" style="width:100%;margin:0.5em 0;" ><br><img src="img/Perlin_Noise_2-07.png"style="width:100%;margin:0.5em 0;"></li></li>
+                        <li><strong>Risultato:</strong> <br><img src="img/Perlin_Noise_2-08.png" alt="Rumore frattale" style="width:100%;margin:0.5em 0;"></li>
+
                     </ul>
-                    <div class="formula"><strong>noise(x) = lerp(fade(t), dot(g0, x-x0), dot(g1, x-x1))</strong></div>
-                    <p>Dove <code>g0</code> e <code>g1</code> sono i gradienti ai due nodi più vicini, <code>x0</code> e <code>x1</code> sono le loro posizioni, <code>t</code> è la posizione normalizzata tra i due nodi, <code>fade(t)</code> è la funzione di smoothing, e <code>lerp</code> è l'interpolazione lineare.<br>Questo metodo produce curve che appaiono naturali e continue, senza bruschi salti, e permette di "disegnare" funzioni complesse semplicemente combinando più onde di Perlin a diverse scale.</p>
-                    <p>Ogni volta che si calcola il valore della funzione di rumore di Perlin, bisogna eseguire un prodotto scalare tra il vettore di posizione e il vettore gradiente in ciascun angolo della cella della griglia che contiene il punto. Poiché ogni cella ha 2n angoli in uno spazio a n dimensioni, il numero di operazioni cresce esponenzialmente con il numero di dimensioni. Quindi, il costo computazionale del rumore di Perlin è dell'ordine di O(2n)</p>
-                    <p>Una caratteristica fondamentale è la possibilità di combinare più "ottave" di rumore con diverse frequenze e ampiezze, creando il cosiddetto "Fractal Brownian Motion" (fBm) che aggiunge dettaglio e complessità al risultato finale:</p>
-                    <div class="formula">fBm(x, y) = Σ<sub>i=0</sub><sup>n-1</sup> amplitude<sub>i</sub> × perlin(x × frequency<sub>i</sub>, y × frequency<sub>i</sub>)<br>dove: frequency<sub>i</sub> = baseFrequency × lacunarity<sup>i</sup><br>e amplitude<sub>i</sub> = persistence<sup>i</sup></div>
-                    <p>La funzione di interpolazione utilizzata è cruciale per la qualità del risultato. Perlin originariamente usava una funzione cubica S(t) = 3t² - 2t³, successivamente migliorata con S(t) = 6t⁵ - 15t⁴ + 10t³ nella versione "Improved Perlin Noise".</p>
+                    <li><strong>Formula di base</strong> </li>
+                    <div class="formula"><strong>PerlinNoise(x) = lerp(fade(t), grad(a, x), grad(b, x - 1))</strong></div>
+                    <p>Dove:</p>
+                    <ul>
+                        <li>x è il punto da valutare (tra due interi a e b: a = floor(x), b = a + 1)</li>
+                        <li>t = x - a (la parte frazionaria di x)</li>
+                        <li>fade(t) è una funzione di smoothing</li>
+                        <li>grad(hash, x) è una funzione gradiente basata su un valore hash</li>
+                        <li>lerp(t, a, b) è l’interpolazione lineare</li>
+                    </ul>
+                   
                     <p style="font-size:0.95em; opacity:0.8;">Fonte: <a href="http://tobyschachman.com/Shadershop/" target="_blank">Shadershop - Toby Schachman</a></p>
-                    <h5 style="font-size:1.3rem; margin-bottom:1rem;">Perlin Noise 2D</h5>
-                    <p>In due dimensioni, il Perlin Noise funziona allo stesso modo ma lavorando su un'ulteriore piano che genera una curva morbida e continua, simile a una collina, ma con un aspetto pseudo-casuale.</p>
-                    <ul style="margin-left:0; padding-left:0;">
-                        <li>Suddivisione dello spazio in una griglia di celle<br><img src="img/perlin_initial_grid.jpg" alt="Griglia iniziale" style="width:100%;max-width:320px;margin:0.5em 0 0.5em 0;display:block;margin-left:0;margin-right:auto;"></li>
-                        <li>Assegnazione di vettori di gradiente casuali ai vertici della griglia<br><img src="img/perlin_random_gradient_vectors.jpg" alt="Vettori di gradiente casuali" style="width:100%;max-width:320px;margin:0.5em 0 0.5em 0;display:block;margin-left:0;margin-right:auto;"></li>
-                        <li>Calcolo dei prodotti scalari tra i vettori di gradiente e i vettori di distanza dai punti nella cella<br><img src="img/perlin_smoothing_interpolation.jpg"  alt="Prodotti scalari e interpolazione" style="width:100%;max-width:320px;margin:0.5em 0 0.5em 0;display:block;margin-left:0;margin-right:auto;"></li>
-                        <br><img src="img/perlin_noise_contour.jpg"  alt="Prodotti scalari e interpolazione" style="width:100%;max-width:320px;margin:0.5em 0 0.5em 0;display:block;margin-left:0;margin-right:auto;"></li>
-                        <li>Interpolazione dei valori risultanti usando una funzione di easing<br><img src="img/perlin_grid_gradients.jpg" alt="Perlin noise 2D con contorni" style="width:100%;max-width:320px;margin:0.5em 0 0.5em 0;display:block;margin-left:0;margin-right:auto;"></li>
-                    </ul>
-                    <p>La funzione di base per un Perlin Noise bidimensionale può essere rappresentata come:</p>
-                    <div class="formula">noise(x, y) = Σ amplitude<sub>i</sub> × perlin(frequency<sub>i</sub> × x, frequency<sub>i</sub> × y)</div>
-                </div>
-            </div>
+             
         </section>
         <section class="section fade-in">
             <div class="container">
@@ -404,7 +401,7 @@
                             <div class="esempio-card-content">
                                 <div class="esempio-card"><img src="img/necessary-disorder_1.gif" alt="Texture procedurali">
                                     <div class="esempio-card-content">
-                                        <div class="esempio-card"><img src="img/Crome.png" alt="Texture procedurali">
+                                        <div class="esempio-card"><img src="img/necessary-disorder_4.gif" alt="Texture procedurali">
                                             <div class="esempio-card-content">
 
                                 <h5>Texture procedurali</h5>
@@ -523,6 +520,12 @@
                 <div class="section-content">
                     <p>Trascina il mouse orizzontalmente per ruotare il paesaggio. </p>
                     <canvas id="perlinWebGL" width="900" height="400"></canvas>
+                    <div class="controlli">
+                        <div class="slider-container">
+                            <label for="webglOctavesSlider">Ottave: <span id="webglOctavesValue">3</span></label>
+                            <input type="range" id="webglOctavesSlider" min="1" max="5" step="1" value="3">
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -544,7 +547,7 @@
                         <li><a target="_blank" href="http://tobyschachman.com/Shadershop/">Toby Schachman</a></li>
                         <li><a target="_blank" href="https://iquilezles.org/">Inigo Quilez</a></li>
                         <li><a target="_blank" href="https://www.shadertoy.com/">Shadertoy</a></li>
-                        <li><a target="_blank" href="https://www.clicktorelease.com/blog/experiments-with-perlin-noise/">Chrome Animation</a></li>
+                      
                         <li><a target="_blank" href="https://ravenkwok.tumblr.com/">Raven Kwork</a></li>
                         <li><a target="_blank" href="https://necessary-disorder.tumblr.com/">Etienne Jacob</a></li>
                         <li><a target="_blank" href="https//dailydrawbot.tumblr.com/">Just van Rossum</a></li>
@@ -702,6 +705,8 @@
             const canvas = document.getElementById('perlinWebGL');
             const ctx = canvas.getContext('2d');
             const perlin = new ImprovedNoise();
+            const octavesSlider = document.getElementById('webglOctavesSlider');
+            const octavesValue = document.getElementById('webglOctavesValue');
             const risoluzione = 80;
             const spaziatura = 6;
             const elevazione = 200;
@@ -724,12 +729,14 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 const offsY = performance.now() * 0.01 / 16.67;
                 const t = 0;
+                const octaves = parseInt(octavesSlider.value);
+                octavesValue.textContent = octaves;
                 for (let j = -risoluzione / 2; j < risoluzione / 2; j++) {
                     const z = j * spaziatura;
                     ctx.beginPath();
                     for (let i = -risoluzione / 2; i < risoluzione / 2; i++) {
                         const x = i * spaziatura;
-                        let y = perlin.noise(i * 0.03 + 100, j * 0.04 + offsY, t) * elevazione - elevazione / 2;
+                        let y = fbm(perlin, i * 0.03 + 100, j * 0.04 + offsY, t, octaves, 0.5) * elevazione - elevazione / 2;
                         y = Math.min(y, 0);
                         const [sx, sy] = project3D([x, y, z]);
                         if (i === -risoluzione / 2) ctx.moveTo(sx, sy);
@@ -741,6 +748,10 @@
                 }
                 requestAnimationFrame(draw);
             }
+            octavesSlider.addEventListener('input', () => {
+                // Force redraw when slider changes
+                draw();
+            });
             draw();
         }
         window.addEventListener('load', function () {
