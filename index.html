@@ -359,7 +359,7 @@
                     <strong>Processo</strong>  
 
                     <ul style="padding:0px; margin-left: 0rem; margin-bottom: 1.5rem;">
-                        <li><strong>Pseudo-random:</strong> Per iniziare ci servono valori pseudo-random tra -1 e 1. Ad esempio possiamo partire dalle funzioni sin o cos, per generare una funzione pseudo-random. (Nell'approccio a più dimensioni questo passaggio corrisponde alla suddivisione del piano in una griglia e all'assegnazione di un vettore gradiente casuale per ogni nodo, successivamente l'individuazione di un punto casuale all'interno della cella. Vengono poi individuati 2n (n= numero dimensioni) vettori offset overro i vettori che partono dai nodi e arrivano al punto casuale)  <br><img src="img/Perlin_Noise_2-01.png" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li>
+                        <li><strong>Pseudo-random:</strong> Per iniziare ci servono valori pseudo-random tra -1 e 1. Ad esempio possiamo partire dalle funzioni sin o cos, per generare una funzione pseudo-random. (Nell'approccio a più dimensioni questo passaggio corrisponde alla suddivisione del piano in una griglia e all'assegnazione di un vettore gradiente casuale per ogni nodo, successivamente l'individuazione di un punto casuale all'interno della cella. Vengono poi individuati 2n (n= numero dimensioni) vettori offset overro i vettori che partono dai nodi e arrivano al punto casuale)  <br><img src="img/Perlin_Noise_2_12.png" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li>
                         <li><strong>Steps:</strong> Componiamo la funzione «floor» alla funzione iniziale, prendendo solo i valori interi sull'asse x e semplificando la funzione. (Nell'approccio a più dimensioni questo passaggio corrisponde al prodotto scalare tra il vettore gradiente e il vettore offset) <br><img src="img/Perlin_Noise_2-02.png"  alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li>
                         <li><strong>Interpolazione:</strong> Con la funzione Smooth (funzione sigmoidea di interpolazione), applicata alla nostra funzione, otteniamo una linea morbida (per 1D), un gradiente morbido (per 2D), o una superficie (per 3D). La funzione Smooth in poche parole «smussa» i nostri «gradini» tra i valori. Una funzione di interpolazione è uno strumento matematico usato per stimare valori intermedi tra punti dati noti. In parole semplici, serve a "colmare i vuoti" tra valori conosciuti, creando una transizione fluida. (Nell'approccio a più dimensioni questo passaggio funziona allo stesso modo)<br>
                         <div style="display: flex; gap: 1rem; justify-content: center; margin: 0.5em 0;">
@@ -386,19 +386,26 @@
                     <p style="font-size:0.95em; opacity:0.8;">Fonte: <a href="http://tobyschachman.com/Shadershop/" target="_blank">Shadershop - Toby Schachman</a></p>
 
                     <p>Per un punto in una griglia bidimensionale, ciò richiederà il calcolo di quattro vettori di offset e prodotti scalari, mentre in tre dimensioni richiederà otto vettori di offset e otto prodotti scalari. In generale, l'algoritmo ha una complessità di O (2 n ) in n dimensioni.</p>
-                    <strong>Processo corrispondente in 2D valido per ogni quantità di dimensioni</strong>  
 
-                    <ul style="padding:0px; margin-left: 0rem; margin-bottom: 1.5rem;">
-                        <li><strong>[Pseudo-random]:</strong> Nell'approccio a più dimensioni questo passaggio corrisponde alla suddivisione del piano in una griglia e all'assegnazione di un vettore gradiente casuale per ogni nodo, successivamente l'individuazione di un punto casuale all'interno della cella. Vengono poi individuati 2n (n= numero dimensioni) vettori offset overro i vettori che partono dai nodi e arrivano al punto casuale.<br><img src="img/2.jpg" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li><br><img src="img/Perlin_Noise_2-15.png" alt="Rumore bianco" style="width:100%;margin:0.5em 0;"></li>
-                        <li><strong>[Steps]:</strong> Nell'approccio a più dimensioni questo passaggio corrisponde al prodotto scalare tra il vettore gradiente e il vettore offset <br><img src="img/Perlin_Noise_2-14.png"  alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li><br><img src="img/PerlinNoiseDotProducts.png"  alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li>
-                        <li><strong>[Interpolazione]:</strong> Nell'approccio a più dimensioni questo passaggio funziona allo stesso modo.<br><br><img src="img/PerlinNoiseInterpolated.png"  alt="Rumore interpolato" style="width:100%;margin:0.5em 0;"></li>
-                   
-                </section>
-                <section class="section alt fade-in">
-                    <div class="container">
-                        <h2 class="section-title">Esempio Interattivo: Griglia di Punti con Perlin Noise</h2>
-                        <div class="section-content">
-                            <p>Sperimenta con il Perlin Noise modificando i parametri qui sotto. Osserva come i diversi valori
+                    <strong>Formula del Perlin Noise 2D</strong>
+                    <div class="formula">
+    <strong>P(x, y) = Σ<sub>i=1</sub><sup>n</sup> (a<sub>i</sub> * G<sub>i</sub>(x, y))</strong>
+</div>
+<p>Dove:</p>
+<ul>
+    <li><strong>P(x, y)</strong>: Valore del Perlin Noise in 2D per il punto (x, y).</li>
+    <li><strong>n</strong>: Numero di ottave.</li>
+    <li><strong>a<sub>i</sub></strong>: Ampiezza dell'ottava i-esima.</li>
+    <li><strong>G<sub>i</sub>(x, y)</strong>: Gradiente del rumore per l'ottava i-esima.</li>
+</ul>
+                </div>
+            </div>
+        </section>
+        <section class="section alt fade-in">
+            <div class="container">
+                <h2 class="section-title">Esempio Interattivo: Griglia di Punti con Perlin Noise</h2>
+                <div class="section-content">
+                    <p>Sperimenta con il Perlin Noise modificando i parametri qui sotto. Osserva come i diversi valori
                                 influenzano la dimensione dei punti nella griglia.</p>
                             <canvas id="perlinCanvas" width="900" height="400"></canvas>
                             <div class="controlli">
@@ -580,6 +587,8 @@
                     </ul>
                 </div>
             </div>
+            <p>Ricerca sul Perlin Noise, per il corso di Matematica per il Design (2025), Nina Pambianco e Yulia Dudina,  
+                docente Andreas Gysin, ISIA U</p>
         </section>
     </main>
     <script>
